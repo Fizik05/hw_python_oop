@@ -24,15 +24,15 @@ class Calculator:
                 week_stats += i.amount
         return week_stats
 
-    pass
-
 
 class CashCalculator(Calculator):
     def __init__(self, limit):
         super().__init__(limit)
 
     def get_today_cash_remained(self, currency='rub'):
-        dic_currency = {'rub': 1, 'eur': 70, 'usd': 60}
+        self.EURO_RATE = 87.39
+        self.USD_RATE = 71.78
+        dic_currency = {'rub': 1, 'eur': self.EURO_RATE, 'usd': self.USD_RATE}
         self.currency = currency
         today_remained = 0
         for i in self.records:
@@ -77,7 +77,6 @@ class Record(Calculator):
             self.date = date
         self.amount = amount
         self.comment = comment
-    pass
 
 
 cash_calculator = CashCalculator(1000)
