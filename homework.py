@@ -21,7 +21,7 @@ class Calculator:
     def get_week_stats(self):
         week_stats = 0
         for i in self.records:
-            if i.date <= self.week <= self.today:
+            if self.week <= i.date <= self.today:
                 week_stats += i.amount
         return week_stats
 
@@ -62,8 +62,7 @@ class CaloriesCalculator(Calculator):
 
     def get_calories_remained(self):
         today_ate = 0
-        for i in self.records:
-            self.today_ate = self.limit - self.get_today_stats()
+        self.today_ate = self.limit - self.get_today_stats()
         if today_ate > 0:
             return ('Сегодня можно съесть что-нибудь ещё, но с общей '
                     f'калорийностью не более {self.limit - today_ate} кКал')
