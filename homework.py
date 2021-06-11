@@ -6,6 +6,7 @@ class Calculator:
         self.limit = limit
         self.records = []
         self.week = dt.date.today() - dt.timedelta(days=7)
+        self.today = dt.date.today()
 
     def add_record(self, someone):
         self.records.append(someone)
@@ -13,14 +14,14 @@ class Calculator:
     def get_today_stats(self):
         today_stats = 0
         for i in self.records:
-            if i.date == dt.date.today():
+            if i.date == self.today:
                 today_stats += i.amount
         return today_stats
 
     def get_week_stats(self):
         week_stats = 0
         for i in self.records:
-            if i.date <= self.week <= dt.date.today():
+            if i.date <= self.week <= self.today:
                 week_stats += i.amount
         return week_stats
 
@@ -29,9 +30,10 @@ class CashCalculator(Calculator):
     def __init__(self, limit):
         super().__init__(limit)
 
+    EURO_RATE = 87.39
+    USD_RATE = 71.78
+
     def get_today_cash_remained(self, currency='rub'):
-        self.EURO_RATE = 87.39
-        self.USD_RATE = 71.78
         dic_currency = {'rub': 1, 'eur': self.EURO_RATE, 'usd': self.USD_RATE}
         self.currency = currency
         today_remained = 0
@@ -74,7 +76,7 @@ class Record(Calculator):
         if date is None:
             self.date = dt.date.today()
         else:
-            self.date = date
+            self.date = dt.datetime.strptime(date, '%d.%m.%Y').date()
         self.amount = amount
         self.comment = comment
 
