@@ -36,7 +36,6 @@ class CashCalculator(Calculator):
     def get_today_cash_remained(self, currency='rub'):
         dic_currency = {'rub': 1, 'eur': self.EURO_RATE, 'usd': self.USD_RATE}
         self.currency = currency
-        today_remained = 0
         if self.currency == 'rub':
             today_remained = self.limit - self.get_today_stats()
             today_remained = round(today_remained, 2)
@@ -55,7 +54,7 @@ class CashCalculator(Calculator):
         else:
             today_remained *= (-1)
             return ('Денег нет, держись: твой долг - '
-                    f'{self.today} {self.currency}')
+                    f'{self.today_remained} {self.currency}')
 
 
 class CaloriesCalculator(Calculator):
