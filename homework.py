@@ -33,7 +33,7 @@ class CashCalculator(Calculator):
     EURO_RATE = 87.39
     USD_RATE = 71.78
 
-    def get_today_cash_remained(self, currency='rub'):
+    def get_today_cash_remained(self, currency):
         dic_currency = {'rub': 1, 'eur': self.EURO_RATE, 'usd': self.USD_RATE}
         self.currency = currency
         today_remained = 0
