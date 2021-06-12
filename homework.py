@@ -33,7 +33,7 @@ class CashCalculator(Calculator):
     EURO_RATE = 87.39
     USD_RATE = 71.78
 
-    def get_today_cash_remained(self, currency):
+    def get_today_cash_remained(self, currency='rub'):
         dic_currency = {'rub': 1, 'eur': self.EURO_RATE, 'usd': self.USD_RATE}
         self.currency = currency
         today_remained = 0
@@ -42,11 +42,11 @@ class CashCalculator(Calculator):
             today_remained = round(today_remained, 2)
         elif self.currency == 'eur':
             cur = dic_currency[self.currency]
-            today_remained = self.limit - (self.get_today_stats() / cur)
+            today_remained = (self.limit - self.get_today_stats()) / cur
             today_remained = round(today_remained, 2)
         elif self.currency == 'usd':
             cur = dic_currency[self.currency]
-            today_remained = self.limit - (self.get_today_stats() / cur)
+            today_remained = (self.limit - self.get_today_stats()) / cur
             today_remained = round(today_remained, 2)
         if today_remained > 0:
             return f'На сегодня осталось {today_remained} {self.currency}'
@@ -87,5 +87,5 @@ cash_calculator.add_record(Record(amount=300, comment='Серёге за обе�
 cash_calculator.add_record(Record(amount=145, comment='кофе'))
 calories_calculator.add_record(Record(amount=145, comment='кофе'))
 
-print(cash_calculator.get_today_cash_remained('rub'))
+print(cash_calculator.get_today_cash_remained('usd'))
 print(calories_calculator.get_calories_remained())
