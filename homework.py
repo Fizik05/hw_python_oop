@@ -30,28 +30,28 @@ class CashCalculator(Calculator):
     def __init__(self, limit):
         super().__init__(limit)
 
+    RUB_RATE = 1
     EURO_RATE = 87.39
     USD_RATE = 71.78
 
     def get_today_cash_remained(self, currency='rub'):
-        self.currency = currency
-        currency_dic = {'rub': 'Руб', 'eur': 'Euro', 'usd': 'USD'}
+        currency_dict = {'rub': (self.RUB_RATE, 'Руб')}
         minus = self.limit - self.get_today_stats()
-        today_remained = 0
-        if self.currency == 'rub':
-            today_remained = round(minus, 2)
-        elif self.currency == 'usd':
-            today_remained = round(minus / self.USD_RATE, 2)
-        elif self.currency == 'eur':
-            today_remained = round(minus / self.EURO_RATE, 2)
-        if today_remained > 0:
-            return(f'На сегодня осталось {today_remained} '
-                   f'{currency_dic[self.currency]}')
-        elif today_remained == 0:
+        if minus == 0:
             return('Денег нет, держись')
+        currency_dict['eur'] = (self.EURO_RATE, 'Euro')
+        currency_dict['usd'] = (self.USD_RATE, 'USD')
+        try:
+            value = minus / currency_dict[currency][0]
+            currenc = currency_dict[currency][1]
+        except Exception:
+            return('Это не существующая валюта')
+        if value > 0:
+            return(f'На сегодня осталось {value:.2f} '
+                   f'{currenc}')
         else:
             return('Денег нет, держись: твой долг - '
-                   f'{abs(today_remained)} {currency_dic[self.currency]}')
+                   f'{abs(value):.2f} {currenc}')
 
 
 class CaloriesCalculator(Calculator):
@@ -83,5 +83,5 @@ cash_calculator.add_record(Record(amount=85674, comment='Серёге за об�
 cash_calculator.add_record(Record(amount=145, comment='кофе'))
 calories_calculator.add_record(Record(amount=4145, comment='кофе'))
 
-print(cash_calculator.get_today_cash_remained('eur'))
+print(cash_calculator.get_today_cash_remained('rub'))
 print(calories_calculator.get_calories_remained())
