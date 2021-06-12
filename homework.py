@@ -35,9 +35,7 @@ class CashCalculator(Calculator):
 
     def get_today_cash_remained(self, currency='rub'):
         self.currency = currency
-        currency_dic = {'rub': 'Руб',
-                         'eur': 'Euro',
-                         'usd': 'USD'}
+        currency_dic = {'rub': 'Руб', 'eur': 'Euro', 'usd': 'USD'}
         minus = self.limit - self.get_today_stats()
         today_remained = 0
         if self.currency == 'rub':
