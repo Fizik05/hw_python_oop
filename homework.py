@@ -34,26 +34,26 @@ class CashCalculator(Calculator):
     USD_RATE = 71.78
 
     def get_today_cash_remained(self, currency='rub'):
-        dic_currency = {'rub': 1, 'eur': self.EURO_RATE, 'usd': self.USD_RATE}
         self.currency = currency
+        currency_dict = {'rub': 'руб',
+                         'eur': 'Euro',
+                         'usd': 'USD'}
+        conv = self.limit - self.get_today_stats()
+        today_remain: float = 0
         if self.currency == 'rub':
-            today_remained = self.limit - self.get_today_stats()
-            today_remained = round(today_remained, 2)
-        elif self.currency == 'eur':
-            cur = dic_currency[self.currency]
-            today_remained = (self.limit - self.get_today_stats()) / cur
-            today_remained = round(today_remained, 2)
+            today_remain = round(conv)
         elif self.currency == 'usd':
-            cur = dic_currency[self.currency]
-            today_remained = (self.limit - self.get_today_stats()) / cur
-            today_remained = round(today_remained, 2)
-        if today_remained > 0:
-            return f'На сегодня осталось {today_remained} {self.currency}'
-        elif today_remained == 0:
-            return 'Денег нет, держись'
+            today_remain = round(conv / self.USD_RATE)
+        elif self.currency == 'eur':
+            today_remain = round(conv / self.EURO_RATE)
+        if today_remain > 0:
+            return(f'На сегодня осталось {today_remain:.2f} '
+                   f'{currency_dict[self.currency]}')
+        elif today_remain == 0:
+            return('Денег нет, держись')
         else:
-            return ('Денег нет, держись: твой долг - '
-                    f'{abs(today_remained)} {self.currency}')
+            return('Денег нет, держись: твой долг - '
+                   f'{abs(today_remain):.2f} {currency_dict[self.currency]}')
 
 
 class CaloriesCalculator(Calculator):
@@ -81,7 +81,7 @@ class Record(Calculator):
 
 cash_calculator = CashCalculator(1000)
 calories_calculator = CaloriesCalculator(3000)
-cash_calculator.add_record(Record(amount=856.2, comment='Серёге за обед'))
+cash_calculator.add_record(Record(amount=85674, comment='Серёге за обед'))
 cash_calculator.add_record(Record(amount=145, comment='кофе'))
 calories_calculator.add_record(Record(amount=4145, comment='кофе'))
 
