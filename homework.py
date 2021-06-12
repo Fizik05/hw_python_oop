@@ -35,25 +35,25 @@ class CashCalculator(Calculator):
 
     def get_today_cash_remained(self, currency='rub'):
         self.currency = currency
-        currency_dict = {'rub': 'руб',
+        currency_dic = {'rub': 'Руб',
                          'eur': 'Euro',
                          'usd': 'USD'}
-        conv = self.limit - self.get_today_stats()
-        today_remain: float = 0
+        minus = self.limit - self.get_today_stats()
+        today_remained = 0
         if self.currency == 'rub':
-            today_remain = round(conv)
+            today_remained = round(minus, 2)
         elif self.currency == 'usd':
-            today_remain = round(conv / self.USD_RATE)
+            today_remained = round(minus / self.USD_RATE, 2)
         elif self.currency == 'eur':
-            today_remain = round(conv / self.EURO_RATE)
-        if today_remain > 0:
-            return(f'На сегодня осталось {today_remain:.2f} '
-                   f'{currency_dict[self.currency]}')
-        elif today_remain == 0:
+            today_remained = round(minus / self.EURO_RATE, 2)
+        if today_remained > 0:
+            return(f'На сегодня осталось {today_remained} '
+                   f'{currency_dic[self.currency]}')
+        elif today_remained == 0:
             return('Денег нет, держись')
         else:
             return('Денег нет, держись: твой долг - '
-                   f'{abs(today_remain):.2f} {currency_dict[self.currency]}')
+                   f'{abs(today_remained)} {currency_dic[self.currency]}')
 
 
 class CaloriesCalculator(Calculator):
