@@ -30,12 +30,12 @@ class CashCalculator(Calculator):
     def __init__(self, limit):
         super().__init__(limit)
 
-    RUB_RATE = 1
+    RUB_RATE: float = 1
     EURO_RATE = 87.39
     USD_RATE = 71.78
 
     def get_today_cash_remained(self, currency='rub'):
-        currency_dict = {'rub': (self.RUB_RATE, 'Руб')}
+        currency_dict = {'rub': (self.RUB_RATE, 'руб')}
         minus = self.limit - self.get_today_stats()
         if minus == 0:
             return('Денег нет, держись')
