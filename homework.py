@@ -37,15 +37,17 @@ class CashCalculator(Calculator):
         dic_currency = {'rub': 1, 'eur': self.EURO_RATE, 'usd': self.USD_RATE}
         self.currency = currency
         today_remained = 0
-        for i in self.records:
-            if self.currency == 'rub':
-                today_remained = self.limit - self.get_today_stats()
-            elif self.currency == 'eur':
-                cur = dic_currency[self.currency]
-                today_remained = self.limit - (self.get_today_stats() / cur)
-            elif self.currency == 'usd':
-                cur = dic_currency[self.currency]
-                today_remained = self.limit - (self.get_today_stats() / cur)
+        if self.currency == 'rub':
+            today_remained = self.limit - self.get_today_stats()
+            today_remained = round(today_remained, 2)
+        elif self.currency == 'eur':
+            cur = dic_currency[self.currency]
+            today_remained = self.limit - (self.get_today_stats() / cur)
+            today_remained = round(today_remained, 2)
+        elif self.currency == 'usd':
+            cur = dic_currency[self.currency]
+            today_remained = self.limit - (self.get_today_stats() / cur)
+            today_remained = round(today_remained, 2)
         if today_remained > 0:
             return f'На сегодня осталось {today_remained} {self.currency}'
         elif today_remained == 0:
@@ -61,11 +63,10 @@ class CaloriesCalculator(Calculator):
         super().__init__(limit)
 
     def get_calories_remained(self):
-        today_ate = 0
-        self.today_ate = self.limit - self.get_today_stats()
+        today_ate = self.limit - self.get_today_stats()
         if today_ate > 0:
             return ('Сегодня можно съесть что-нибудь ещё, но с общей '
-                    f'калорийностью не более {self.limit - today_ate} кКал')
+                    f'калорийностью не более {today_ate} кКал')
         else:
             return 'Хватит есть!'
 
