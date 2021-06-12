@@ -5,7 +5,10 @@ from datetime import datetime
 
 import pytest
 
-import homework
+try:
+    import homework
+except ModuleNotFoundError:
+    assert False, 'Не найдена домашняя работа'
 
 
 class TestRecord:
