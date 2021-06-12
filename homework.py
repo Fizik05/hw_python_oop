@@ -52,8 +52,7 @@ class CashCalculator(Calculator):
         elif today_remained == 0:
             return 'Денег нет, держись'
         else:
-            today_remained *= (-1)
-            return ('Денег нет, держись: твой долг - '
+            return ('Денег нет, держись: твой долг '
                     f'{today_remained} {self.currency}')
 
 
@@ -82,9 +81,9 @@ class Record(Calculator):
 
 cash_calculator = CashCalculator(1000)
 calories_calculator = CaloriesCalculator(3000)
-cash_calculator.add_record(Record(amount=3800, comment='Серёге за обед'))
+cash_calculator.add_record(Record(amount=856, comment='Серёге за обед'))
 cash_calculator.add_record(Record(amount=145, comment='кофе'))
-calories_calculator.add_record(Record(amount=1145, comment='кофе'))
+calories_calculator.add_record(Record(amount=4145, comment='кофе'))
 
 print(cash_calculator.get_today_cash_remained('usd'))
 print(calories_calculator.get_calories_remained())
