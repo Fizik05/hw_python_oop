@@ -1,6 +1,16 @@
 import datetime as dt
 
 
+class Record(Calculator):
+    def __init__(self, amount, comment, date=None):
+        if date is None:
+            self.date = dt.date.today()
+        else:
+            self.date = dt.datetime.strptime(date, '%d.%m.%Y').date()
+        self.amount = amount
+        self.comment = comment
+
+
 class Calculator:
     def __init__(self, limit):
         self.limit = limit
@@ -17,23 +27,13 @@ class Calculator:
         )
 
     def get_week_stats(self):
-        week = dt.date.today() - dt.timedelta(days=7)
         today = dt.date.today()
+        week = today - dt.timedelta(days=7)
         return sum(
             record.amount
             for record in self.records
             if week < record.date <= today
         )
-
-
-class Record(Calculator):
-    def __init__(self, amount, comment, date=None):
-        if date is None:
-            self.date = dt.date.today()
-        else:
-            self.date = dt.datetime.strptime(date, '%d.%m.%Y').date()
-        self.amount = amount
-        self.comment = comment
 
 
 class CashCalculator(Calculator):
@@ -50,9 +50,8 @@ class CashCalculator(Calculator):
             return 'Денег нет, держись'
         if currency not in currency_dict:
             raise ValueError('Плохая валюта')
-        else:
-            value = minus / currency_dict[currency][0]
-            currency_1 = currency_dict[currency][1]
+        value = minus / currency_dict[currency][0]
+        currency_1 = currency_dict[currency][1]
         if value > 0:
             return(f'На сегодня осталось {value:.2f} '
                    f'{currency_1}')
@@ -68,13 +67,3 @@ class CaloriesCalculator(Calculator):
             return ('Сегодня можно съесть что-нибудь ещё, но с общей '
                     f'калорийностью не более {today_ate} кКал')
         return 'Хватит есть!'
-
-
-cash_calculator = CashCalculator(1000)
-calories_calculator = CaloriesCalculator(3000)
-cash_calculator.add_record(Record(amount=1, comment='Серёге за обед'))
-cash_calculator.add_record(Record(amount=145, comment='кофе'))
-calories_calculator.add_record(Record(amount=4145, comment='кофе'))
-
-print(cash_calculator.get_today_cash_remained('rub'))
-print(calories_calculator.get_calories_remained())
