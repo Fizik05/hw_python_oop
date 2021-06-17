@@ -1,7 +1,7 @@
 import datetime as dt
 
 
-class Record(Calculator):
+class Record:
     def __init__(self, amount, comment, date=None):
         if date is None:
             self.date = dt.date.today()
